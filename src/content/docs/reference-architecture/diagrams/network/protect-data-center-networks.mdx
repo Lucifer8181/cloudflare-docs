@@ -16,7 +16,7 @@ updated: 2024-12-19
 
 ## Introduction
 
-Network security teams have traditionally used various network firewalls or security appliances at the perimeter to protect their data center networks against both external and internal threats, e.g. DDoS attacks, malware, ransomware, phishing, leaking of sensitive information, etc. In addition, the same or additional firewall or security appliances are deployed at the [DMZ](<https://en.wikipedia.org/wiki/DMZ_(computing)>) or core layer of the data center networks to control and secure internal private network traffic routed between multiple data center sites across their wide-area network (WAN).
+Network security teams have traditionally used various network firewalls or security appliances at the perimeter to protect their data center networks against both external and internal threats, for example, DDoS attacks, malware, ransomware, phishing, leaking of sensitive information, etc. In addition, the same or additional firewall or security appliances are deployed at the [DMZ](<https://en.wikipedia.org/wiki/DMZ_(computing)>) or core layer of the data center networks to control and secure internal private network traffic routed between multiple data center sites across their wide-area network (WAN).
 
 But these firewalls and security appliances are often expensive, complex to configure and manage, difficult to scale to handle large attacks, and require upgrades and patches to defend against newly discovered threats and vulnerabilities.
 
@@ -25,7 +25,7 @@ But these firewalls and security appliances are often expensive, complex to conf
 - [Magic Transit](https://www.cloudflare.com/network-services/products/magic-transit/) provides instant detection and mitigation against network-layer DDoS attacks on your public, Internet-facing networks.
 - [Magic WAN](https://www.cloudflare.com/network-services/products/magic-wan/) provides any-to-any, hybrid/multi-cloud secure connectivity between your private, enterprise networks.
 - [Magic Firewall](/magic-firewall/) is a cloud-native network firewall service that can be used to filter traffic that is routed to and from your networks that are protected by Magic Transit. It also supports functionalities such as [Intrusion Detection](/magic-firewall/about/ids/) (IDS) and [packet capture](/magic-firewall/packet-captures/).
-- [Gateway](https://www.cloudflare.com/zero-trust/products/gateway/) is a secure web gateway (SWG) service that allows you to inspect and control both Internet bound traffic that is originated from your networks, as well as private network-to-private network traffic (i.e. east-west), by proxying such traffic through Cloudflare's global network while applying DNS, network and HTTP based [policies](/cloudflare-one/policies/gateway/).
+- [Gateway](https://www.cloudflare.com/zero-trust/products/gateway/) is a secure web gateway (SWG) service that allows you to inspect and control both Internet bound traffic that is originated from your networks, as well as private network-to-private network traffic (that is, east-west), by proxying such traffic through Cloudflare's global network while applying DNS, network and HTTP based [policies](/cloudflare-one/policies/gateway/).
 
 This document focuses specifically on the reference architectures of using Cloudflare Magic Transit, Magic WAN, Magic Firewall and Cloudflare Gateway services to protect both external and internal communications to your data center networks. For details of how Magic Transit, Magic WAN, Magic Firewall and Cloudflare Gateway works and how it can be architected for various use cases, see the linked resources at the end of the document.
 
@@ -47,7 +47,7 @@ The reference architecture diagram below illustrates how Cloudflare Magic Transi
 
 ![Figure 1. Protect Public-facing Networks from Inbound Traffic.](~/assets/images/reference-architecture/protect-data-center-networks/figure1.svg "Figure 1. Protect Public-facing Networks from Inbound Traffic.")
 
-1. Using Border Gateway Protocol ([BGP](https://www.cloudflare.com/learning/security/glossary/what-is-bgp/)) and [IP anycast](https://www.cloudflare.com/learning/cdn/glossary/anycast-network/), Cloudflare advertises the customer’s protected IP prefixes to the Internet from all of [Cloudflare's global data centers](https://www.cloudflare.com/network/). At the same time, on-premises network(s) would stop advertising the same exact prefixes from their respective on-premises border routers. This ensures that all traffic passes through Cloudflare for Magic Transit DDoS protection and policy enforcement before being delivered to the customer's data center. Internet traffic destined to these protected IP prefixes will always be routed to the Cloudflare data center that is closest to the source of the traffic.
+1. Using Border Gateway Protocol ([BGP](https://www.cloudflare.com/learning/security/glossary/what-is-bgp/)) and [IP anycast](https://www.cloudflare.com/learning/cdn/glossary/anycast-network/), Cloudflare advertises the customer's protected IP prefixes to the Internet from all of [Cloudflare's global data centers](https://www.cloudflare.com/network/). At the same time, on-premises network(s) would stop advertising the same exact prefixes from their respective on-premises border routers. This ensures that all traffic passes through Cloudflare for Magic Transit DDoS protection and policy enforcement before being delivered to the customer's data center. Internet traffic destined to these protected IP prefixes will always be routed to the Cloudflare data center that is closest to the source of the traffic.
    Optionally, you could advertise less-specific IP prefixes from the border routers to the Internet. This way, in the unlikely event of a Magic Transit service failure, traffic can be quickly re-routed directly to network locations from the Internet.
 2. Traffic originating from the Internet and destined to the protected IP prefixes is ingested into the global Cloudflare network.
 3. All DDoS attack traffic is mitigated in-line, close to the sources, at every Cloudflare data center using advanced and automated [DDoS mitigation](/ddos-protection/) technologies.
@@ -59,7 +59,7 @@ The reference architecture diagram below illustrates how Cloudflare Magic Transi
 
 ## Protect Internet access from public-facing networks
 
-The reference architecture diagram below illustrates how Cloudflare services \- Magic Transit (Egress), Magic Firewall and Cloudflare Gateway, can be used to protect outbound Internet traffic originating from the data centers' public-facing networks (i.e. servers with public IP addresses).
+The reference architecture diagram below illustrates how Cloudflare services - Magic Transit (Egress), Magic Firewall, and Cloudflare Gateway can be used to protect outbound Internet traffic originating from the data centers' public-facing networks (that is, servers with public IP addresses).
 
 ![Figure 2. Protect outbound traffic from public-facing networks.](~/assets/images/reference-architecture/protect-data-center-networks/figure2.svg "Figure 2. Protect outbound traffic from public-facing networks.")
 
@@ -67,7 +67,7 @@ The reference architecture diagram below illustrates how Cloudflare services \- 
 2. Upon entering the Cloudflare network, outbound Internet traffic is first routed through Magic Firewall where it is subject to any configured network firewall policies.
 3. Outbound Internet traffic is subsequently sent to [Cloudflare Gateway](/cloudflare-one/policies/gateway/), our secure web gateway service where various [policies](/cloudflare-one/policies/gateway/) enforce a comprehensive set of security and control measures on the outbound traffic, ensuring the utmost protection for your networks. For example, Gateway DNS and HTTP policies can both be configured to prevent your servers from connecting to questionable Internet sites and from downloading malware or other malicious content.
 4. Once traffic clears inspection, Gateway proxies the outbound traffic to their destinations on the Internet. The source IP addresses of the outbound traffic are the Cloudflare owned IP addresses associated with the Gateway service, which if you want you can purchase and set your [own egress IP](/cloudflare-one/policies/gateway/egress-policies/dedicated-egress-ips/)
-5. Return traffic from the internet, destined to Cloudflare's IP addresses linked to the Gateway service, is routed into Cloudflare's global network.
+5. Return traffic from the Internet, destined to Cloudflare's IP addresses linked to the Gateway service, is routed into Cloudflare's global network.
 6. Traffic is inspected against Gateway policies.
 7. Return traffic that passes Gateway inspection is routed to Magic Firewall for further packet filtering.
 8. Return traffic that passes Magic Firewall filtering is routed from Cloudflare to your network locations via CNIs that transport public-facing network traffic.
@@ -108,7 +108,7 @@ The reference architecture diagram below illustrates how Cloudflare services \- 
 2. Upon entering the Cloudflare network, outbound Internet traffic is first routed through Magic Firewall where it is subject to any configured network firewall policies.
 3. Traffic that clears Magic Firewall is subsequently sent to [Cloudflare Gateway](/cloudflare-one/policies/gateway/), our secure web gateway service where any configured L3-7 [policies](/cloudflare-one/policies/gateway/) enforce a comprehensive set of security and control measures on the outbound traffic, ensuring the utmost protection for your networks.
 4. Once traffic clears inspection, Gateway proxies the outbound traffic to their destinations on the Internet. The source IP addresses of the outbound traffic are the Cloudflare owned IP addresses associated with the Gateway service.
-5. Return traffic from the internet, destined to Cloudflare's IP addresses linked to the Gateway service, is routed into Cloudflare's global network.
+5. Return traffic from the Internet, destined to Cloudflare's IP addresses linked to the Gateway service, is routed into Cloudflare's global network.
 6. Traffic is inspected against Gateway policies.
 7. Return traffic that passes Gateway inspection is routed to Magic Firewall for further packet filtering.
 8. Return traffic that passes Magic Firewall filtering is routed from Cloudflare to your network locations via CNIs that transport private network traffic.
