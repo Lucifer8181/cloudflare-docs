@@ -69,6 +69,10 @@ Jamf is now configured to deploy the Cloudflare One Agent.
 
 ### Per-app VPN
 
+:::note
+Per-app VPN is supported on Cloudflare One Agent version `1.8` or greater for iOS.
+:::
+
 Before proceeding with per-app VPN configuration, you must make sure Auto connect is disabled for your organization in the Cloudflare dashboard. To disable Auto connect:
 1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/) and select your account.
 2. Select **Zero Trust** > **Settings** > **WARP Client**.
@@ -110,4 +114,8 @@ To support re-authentication, you must include a third-party browser that Cloudf
 - Opera
 
 Cloudflare One will continue to use a Safari window for initial authentication per-security best practices.
+:::
+
+:::note
+Cloudflare One cannot apply split tunnel setting for a per app VPN. Included or excluded domains can be added to the Configuration Profile under Safelisted Domains and Blocklisted Domains sections respectively.
 :::

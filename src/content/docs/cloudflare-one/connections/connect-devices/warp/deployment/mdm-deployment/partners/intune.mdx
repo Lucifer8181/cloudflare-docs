@@ -96,6 +96,10 @@ To support re-authentication, you must include a third-party browser that Cloudf
 Cloudflare One will continue to use a Safari window for initial authentication per-security best practices.
 :::
 
+:::note
+Cloudflare One cannot apply split tunnel setting for a per app VPN. Included or excluded domains can be added to the Configuration Profile under Associated Domains and Excluded Domains sections respectively.
+:::
+
 ## Android
 
 To deploy WARP on Android devices:
@@ -207,92 +211,92 @@ To configure your Cloudflare One Agent app policy:
 	1. Select **Configuration setting format** as **Enter JSON data**.
 	2. Enter your desired deployment parameters in the `managedProperty` field. For example:
 
-	```sh
-		{
-		"kind": "androidenterprise#managedConfiguration",
-		"productId": "app:com.cloudflare.cloudflareoneagent",
-		"managedProperty": [
+		```sh
 			{
-				"key": "app_config_bundle_list",
-				"valueBundleArray": [
-					{
-						"managedProperty": [
-							{
-								"key": "organization",
-								"valueString": "${ORGANIZATION_NAME-1}"
-							},
-							{
-								"key": "service_mode",
-								"valueString": "warp"
-							},
-							{
-								"key": "onboarding",
-								"valueBool": true
-							},
-							{
-								"key": "display_name",
-								"valueString": "${UNIQUE_DISPLAY_NAME-1}"
-							},
-							{
-								"key": "warp_tunnel_protocol",
-								"valueString": "MASQUE"
-							},
-							{
-								"key": "tunneled_apps",
-								"valueBundleArray" :[
-									{
-										"managedProperty": [
-											{
-												"key": "app_identifier",
-												"valueString": "com.android.chrome" # Application package name/unique bundle identifier for the Chrome app browser
-											},
-											{
-												"key": "is_browser",
-												"valueBool": true
-											}
-										]
-									},
-									{
-										"managedProperty": [
-											{
-												"key": "app_identifier",
-												"valueString": "com.google.android.gm" # Application package name/unique bundle identifier for the Gmail app
-											},
-											{
-												"key": "is_browser",
-												"valueBool": false # Default value is false, if a user does not define `is_browser` property our app would not treat `app_identifier` package name as a browser.
-											}
-										]
-									}
-								]
-							}
-						]
-					},
-					{
-						"managedProperty": [
-							{
-								"key": "organization",
-								"valueString": "${ORGANIZATION_NAME-1}"
-							},
-							{
-								"key": "service_mode",
-								"valueString": "warp"
-							},
-							{
-								"key": "display_name",
-								"valueString": "${UNIQUE_DISPLAY_NAME-2}"
-							},
-							{
-								"key": "warp_tunnel_protocol",
-								"valueString": "wireguard"
-							}
-						]
-					}
-				]
-			}
-		]
-	}
-	```
+			"kind": "androidenterprise#managedConfiguration",
+			"productId": "app:com.cloudflare.cloudflareoneagent",
+			"managedProperty": [
+				{
+					"key": "app_config_bundle_list",
+					"valueBundleArray": [
+						{
+							"managedProperty": [
+								{
+									"key": "organization",
+									"valueString": "${ORGANIZATION_NAME-1}"
+								},
+								{
+									"key": "service_mode",
+									"valueString": "warp"
+								},
+								{
+									"key": "onboarding",
+									"valueBool": true
+								},
+								{
+									"key": "display_name",
+									"valueString": "${UNIQUE_DISPLAY_NAME-1}"
+								},
+								{
+									"key": "warp_tunnel_protocol",
+									"valueString": "MASQUE"
+								},
+								{
+									"key": "tunneled_apps",
+									"valueBundleArray" :[
+										{
+											"managedProperty": [
+												{
+													"key": "app_identifier",
+													"valueString": "com.android.chrome" # Application package name/unique bundle identifier for the Chrome app browser
+												},
+												{
+													"key": "is_browser",
+													"valueBool": true
+												}
+											]
+										},
+										{
+											"managedProperty": [
+												{
+													"key": "app_identifier",
+													"valueString": "com.google.android.gm" # Application package name/unique bundle identifier for the Gmail app
+												},
+												{
+													"key": "is_browser",
+													"valueBool": false # Default value is false, if a user does not define `is_browser` property our app would not treat `app_identifier` package name as a browser.
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"managedProperty": [
+								{
+									"key": "organization",
+									"valueString": "${ORGANIZATION_NAME-1}"
+								},
+								{
+									"key": "service_mode",
+									"valueString": "warp"
+								},
+								{
+									"key": "display_name",
+									"valueString": "${UNIQUE_DISPLAY_NAME-2}"
+								},
+								{
+									"key": "warp_tunnel_protocol",
+									"valueString": "wireguard"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+		```
 
 	3. After you have configured the deployment parameters, click **Next**.
 4. Fill out the assignments for the configuration policy. The admin can `Include` or `Exclude` specific groups of users to this policy. After you finish, select **Next**.
