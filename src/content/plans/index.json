@@ -2042,7 +2042,7 @@
 					"title": "Hostname validation",
 					"link": "/turnstile/concepts/hostname-management/",
 					"free": "10 hostnames per widget",
-					"ent": "200 hostnames per widget. <br> The `any hostname` entitlement removes hostname as a requirement and allows you to use the widget anywhere."
+					"ent": "Maximum of 200 hostnames per widget. <br> The `any hostname` entitlement removes hostname as a requirement and allows you to use the widget anywhere."
 				},
 				"graphql_analytics": {
 					"title": "Analytics time window",
